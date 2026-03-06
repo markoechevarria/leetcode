@@ -1,22 +1,30 @@
 #include <iostream>
 #include <vector>
+#include <stack>
 #include <string>
 #include <algorithm>
+#include <cctype>
 
 class Solution {
 public:
     int evalRPN(std::vector<std::string>& tokens) {
-        std::string last = tokens[tokens.size() - 1];
-        tokens.pop_back();
+        std::stack<long> stck;
 
-        if ( !last.empty() && std::all_of(last.begin(), last.end(), ::isdigit) ) { return std::stoi(last); }
-        
-        if ( last == "+") return evalRPN(tokens) + evalRPN(tokens);
-        if ( last == "-") return evalRPN(tokens) - evalRPN(tokens);
-        if ( last == "*") return evalRPN(tokens) * evalRPN(tokens);
-        if ( last == "/") return evalRPN(tokens) / evalRPN(tokens);
+        for (const std::string& token: tokens) {
+            if (token.size() > 1 || isdigit(token[0])) {
+                stck.push(stoi(token));
+            } else {
+                int right = stck.top(); stck.pop();
+                int left = stck.top(); stck.pop();
 
-        return 0;
+                if ( token == "+") { stck.push(left + right); }
+                if ( token == "-") { stck.push(left - right); }
+                if ( token == "*") { stck.push(left * right); }
+                if ( token == "/") { stck.push(left / right); }
+            }
+        }
+
+        return stck.top();
     }
 };
 

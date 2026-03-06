@@ -8,7 +8,7 @@ public:
         std::vector<int> ans;
         std::vector<std::string> resp;
         int a=1;
-        for (int i=0; i<n; i++) {
+        for (int i=0, a=0; i<n && target!=ans; i++, a++) {
             ans.push_back(i+1);
             resp.push_back("Push");
 
@@ -17,9 +17,6 @@ public:
                 resp.push_back("Pop");
                 a--;
             }
-            a++;
-
-            if ( target == ans ) break;
         }
         return resp;
     }
