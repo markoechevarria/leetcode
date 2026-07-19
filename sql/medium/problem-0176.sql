@@ -1,4 +1,5 @@
 -- Second highest salary
+
 WITH cte_first AS (
     SELECT
         salary,
